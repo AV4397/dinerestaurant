@@ -1,22 +1,24 @@
-package com.dinein.model;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+package com.example.dinerestaurant.model;
+
 public class Category {
-	String catId;
-	String name;
-	String remarks;
-	public Category(String id, String catId, String name, String remarks) {
-		this.catId = catId;
-		this.name = name;
-		this.remarks = remarks;
-		return catId;
-	public void setCatId(String catId) {
-		this.catId = catId;
-		return name;
-	public void setName(String name) {
-		this.name = name;
-		return remarks;
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-		return "Category [id=" + id + ", catId=" + catId + ", name=" + name + ", remarks=" + remarks + "]";
+    private String catId;
+    private String name;
+    private String remarks;
+
+    public Category() {}
+
+    public Category(String catId, String name, String remarks) {
+        this.catId = catId;
+        this.name = name;
+        this.remarks = remarks;
+    }
+
+    public String getCatId() { return catId; }
+    public void setCatId(String catId) { this.catId = catId; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getRemarks() { return remarks; }
+    public void setRemarks(String remarks) { this.remarks = remarks; }
 }

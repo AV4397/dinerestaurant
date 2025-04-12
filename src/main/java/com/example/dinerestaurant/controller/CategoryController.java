@@ -1,83 +1,53 @@
-package com.dinein.controller;
+package com.example.dinerestaurant.controller;
 
+import com.example.dinerestaurant.model.Category;
+import com.example.dinerestaurant.repository.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.dinein.model.Category;
-import com.dinein.repository.CategoryRepository;
-
-@RequestMapping("/api/category")
 @RestController
+@RequestMapping("/api/categories")
 public class CategoryController {
 
-	@Autowired
-	CategoryRepository repo;
-	
-	@RequestMapping("/api/list")
-    public String home(Model model) {
-        model.addAttribute("datalist", repo.findAll());
-        return "category";
-    }
-	
-	@RequestMapping("/api/create")
-	public String create(Model model) {
-		return "category_create";
-	}
-	
-	@RequestMapping("/api/contact")
-	public String contact(Model model) {
-		return "contact";
-	}
-	
-	@RequestMapping("/api/save")
-	public String save(Category obj){
-		Optional<Category> idobj = repo.findTopByOrderByIdDesc();
-		String id = null;
-		if(idobj.isPresent())
-		{
-			int idnum = Integer.parseInt(idobj.get().getCatId().substring(5));
-			idnum++;
-			id = "CATG0"+idnum;
-		}
-		else
-		{
-			id = "CATG721361";
-		}
-		
-		obj.setCatId(id);
-		repo.save(obj);		
-		return "redirect:/category/list";
-	}
-	
-	@RequestMapping("/api/show/{id}")
-	public String show(@PathVariable String id, Model model) {
-		model.addAttribute("obj",repo.findById(id).get());
-		return "category_show";
-	}
-	
-	 @RequestMapping("/api/delete")
-	    public String delete(@RequestParam String id) {
-	        Optional<Category> obj = repo.findById(id);
-	        repo.delete(obj.get());
+    @Autowired
+    private CategoryRepository repo;
 
-	        return "redirect:/category/list";
-	    }
-	    
-	    @RequestMapping("/api/edit/{id}")
-	    public String edit(@PathVariable String id, Model model) {
-	        model.addAttribute("obj", repo.findById(id).get());
-	        return "category_edit";
-	    }
-	    
-	    @RequestMapping("/api/update")
-	    public String update(Category obj) {
-	        repo.save(obj);
-	        return "redirect:/category/show/" + obj.getId();
-	    }
+    @GetMapping
+    public List<Category> getAll() {
+        return repo.findAll();
+    }
+
+    @PostMapping
+    public Category create(@RequestBody Category category) {
+        return repo.save(category);
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Category> getById(@PathVariable String id) {
+        return repo.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Category update(@PathVariable String id, @RequestBody Category updated) {
+        updated.setCatId(id);
+        return repo.save(updated);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        repo.deleteById(id);
+    }
+
+    @GetMapping("/latest")
+    public Optional<Category> getLatest() {
+        return repo.findTopByOrderByCatIdDesc();
+    }
+
+    @GetMapping("/byCatId/{catId}")
+    public Optional<Category> getByCatId(@PathVariable String catId) {
+        return repo.findByCatId(catId);
+    }
 }

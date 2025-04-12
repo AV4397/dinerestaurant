@@ -1,45 +1,41 @@
-package com.dinein.model;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+package com.example.dinerestaurant.model;
+
+
+
 public class Menu {
-	String menuId;
-	String catId;
-	String name;
-	double price;
-	String recipe;
-	String imgUrl;
-	public Menu(String id, String menuId, String catId, String name, double price, String recipe, String imgUrl) {
-		this.menuId = menuId;
-		this.catId = catId;
-		this.name = name;
-		this.price = price;
-		this.recipe = recipe;
-		this.imgUrl = imgUrl;
-	public Menu(String menuId, String catId, String name, double price, String recipe, String imgUrl) {
-		this.menuId = menuId;
-		this.catId = catId;
-		this.name = name;
-		this.price = price;
-		this.recipe = recipe;
-		this.imgUrl = imgUrl;
-		return menuId;
-	public void setMenuId(String menuId) {
-		this.menuId = menuId;
-		return catId;
-	public void setCatId(String catId) {
-		this.catId = catId;
-		return name;
-	public void setName(String name) {
-		this.name = name;
-		return price;
-	public void setPrice(double price) {
-		this.price = price;
-		return recipe;
-	public void setRecipe(String recipe) {
-		this.recipe = recipe;
-		return imgUrl;
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
-		return "Menu [id=" + id + ", menuId=" + menuId + ", catId=" + catId + ", name=" + name +", price=" + price
-				+ ", recipe=" + recipe + ", imgUrl=" + imgUrl + "]";
+    private String menuId;
+    private String catId;
+    private String name;
+    private double price;
+    private String recipe;
+    private String imgUrl;
+
+    public Menu() {}
+
+    public Menu(String menuId, String catId, String name, double price, String recipe, String imgUrl) {
+        this.menuId = menuId;
+        this.catId = catId;
+        this.name = name;
+        this.price = price;
+        this.recipe = recipe;
+        this.imgUrl = imgUrl;
+    }
+
+    public String getMenuId() { return menuId; }
+    public void setMenuId(String menuId) { this.menuId = menuId; }
+
+    public String getCatId() { return catId; }
+    public void setCatId(String catId) { this.catId = catId; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
+
+    public String getRecipe() { return recipe; }
+    public void setRecipe(String recipe) { this.recipe = recipe; }
+
+    public String getImgUrl() { return imgUrl; }
+    public void setImgUrl(String imgUrl) { this.imgUrl = imgUrl; }
 }

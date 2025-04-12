@@ -1,101 +1,43 @@
-package com.dinein.controller;
+package com.example.dinerestaurant.controller;
 
-import java.io.IOException;
+import com.example.dinerestaurant.model.Menu;
+import com.example.dinerestaurant.repository.MenuRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.dinein.model.Menu;
-import com.dinein.repository.CategoryRepository;
-import com.dinein.repository.MenuRepository;
-import com.dinein.service.FileUploadUtil;
-
-@RequestMapping("/api/menu")
 @RestController
+@RequestMapping("/api/menus")
 public class MenuController {
 
-	@Autowired
-	MenuRepository repo;
-	
-	@Autowired
-	CategoryRepository catRepo;
-	
-	@RequestMapping("/api/list")
-    public String home(Model model) {
-        model.addAttribute("datalist", repo.findAll());
-        return "menu";
+    @Autowired
+    private MenuRepository repo;
+
+    @GetMapping
+    public List<Menu> getAll() {
+        return repo.findAll();
     }
-	
-	@RequestMapping("/api/create")
-	public String create(Model model) {
-		model.addAttribute("categories", catRepo.findAll());
-		return "menu_create";
-	}
-	
-	@RequestMapping("/api/save")
-	public String save(Menu obj, @RequestParam("image") MultipartFile multipartFile) throws IOException{
-		Optional<Menu> idobj = repo.findTopByOrderByIdDesc();
-		String id = null;
-		if(idobj.isPresent())
-		{
-			int idnum = Integer.parseInt(idobj.get().getMenuId().substring(5));
-			idnum++;
-			id = "MENU3"+idnum;
-		}
-		else
-		{
-			id = "MENU362353";
-		}
-		
-		String imgUrl = id+multipartFile.getOriginalFilename();
-		obj.setMenuId(id);
-		obj.setImgUrl(imgUrl);
-		
-		repo.save(obj);		
-		
-		String uploadDir = "uploads";
-        
-        FileUploadUtil.saveFile(uploadDir, imgUrl, multipartFile);
-		return "redirect:/menu/list";
-	}
-	
 
-	
-	@RequestMapping("/api/show/{id}")
-	public String show(@PathVariable String id, Model model) {
-		model.addAttribute("obj",repo.findById(id).get());
-		model.addAttribute("catName",catRepo.findByCatId(repo.findById(id).get().getCatId()).get().getName());
-		return "menu_show";
-	}
-	
-	 @RequestMapping("/api/delete")
-	    public String delete(@RequestParam String id) {
-	        Optional<Menu> obj = repo.findById(id);
+    @PostMapping
+    public Menu create(@RequestBody Menu item) {
+        return repo.save(item);
+    }
 
-	        repo.delete(obj.get());
-	        return "redirect:/menu/list";
-	    }
-	    
-	    @RequestMapping("/api/edit/{id}")
-	    public String edit(@PathVariable String id, Model model) {
-	        model.addAttribute("obj", repo.findById(id).get());
-			model.addAttribute("categories", catRepo.findAll());
+    @GetMapping("/{id}")
+    public Optional<Menu> getById(@PathVariable String id) {
+        return repo.findById(id);
+    }
 
-	        return "menu_edit";
-	    }
-	    
-	    @RequestMapping("/api/update")
-	    public String update(Menu obj) {
-		    repo.save(obj);
+    @PutMapping("/{id}")
+    public Menu update(@PathVariable String id, @RequestBody Menu updated) {
+        updated.setMenuId(id);
+        return repo.save(updated);
+    }
 
-	        return "redirect:/menu/show/" + obj.getId();
-	    }
-	    
-
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        repo.deleteById(id);
+    }
 }

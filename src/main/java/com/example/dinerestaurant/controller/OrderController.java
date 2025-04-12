@@ -1,8 +1,7 @@
+package com.example.dinerestaurant.controller;
 
-package com.dinein.controller;
-
-import com.dinein.model.Order;
-import com.dinein.repository.OrderRepository;
+import com.example.dinerestaurant.model.Order;
+import com.example.dinerestaurant.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,36 +13,31 @@ import java.util.Optional;
 public class OrderController {
 
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderRepository repo;
 
     @GetMapping
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public Optional<Order> getOrderById(@PathVariable String id) {
-        return orderRepository.findById(id);
+    public List<Order> getAll() {
+        return repo.findAll();
     }
 
     @PostMapping
-    public Order createOrder(@RequestBody Order order) {
-        return orderRepository.save(order);
+    public Order create(@RequestBody Order item) {
+        return repo.save(item);
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Order> getById(@PathVariable String id) {
+        return repo.findById(id);
     }
 
     @PutMapping("/{id}")
-    public Order updateOrder(@PathVariable String id, @RequestBody Order updatedOrder) {
-        return orderRepository.findById(id).map(order -> {
-            updatedOrder.setOrderId(id);
-            return orderRepository.save(updatedOrder);
-        }).orElseGet(() -> {
-            updatedOrder.setOrderId(id);
-            return orderRepository.save(updatedOrder);
-        });
+    public Order update(@PathVariable String id, @RequestBody Order updated) {
+        updated.setOrderId(id);
+        return repo.save(updated);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable String id) {
-        orderRepository.deleteById(id);
+    public void delete(@PathVariable String id) {
+        repo.deleteById(id);
     }
 }

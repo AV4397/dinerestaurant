@@ -1,73 +1,43 @@
-package com.dinein.controller;
+package com.example.dinerestaurant.controller;
 
-import java.io.IOException;
+import com.example.dinerestaurant.model.Table;
+import com.example.dinerestaurant.repository.TableRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.dinein.model.Table;
-import com.dinein.repository.StaffRepository;
-import com.dinein.repository.TableRepository;
-
-@RequestMapping("/api/table")
 @RestController
+@RequestMapping("/api/tables")
 public class TableController {
 
-	@Autowired
-	TableRepository repo;
+    @Autowired
+    private TableRepository repo;
 
-	@Autowired
-	StaffRepository staffRepo;
-	
-	@RequestMapping("/api/list")
-    public String home(Model model) {
-        model.addAttribute("datalist", repo.findAll());
-        return "table";
+    @GetMapping
+    public List<Table> getAll() {
+        return repo.findAll();
     }
-	
-	@RequestMapping("/api/list/waiter")
-    public String waiterTable(Model model, HttpServletRequest req) {
-        model.addAttribute("datalist", repo.findAllByWaiterId(req.getSession().getAttribute("userid").toString()));
-        return "table";
-    }
-	
-	@RequestMapping("/api/create")
-	public String create(Model model) {
-		return "table_create";
-	}
-	
-	@RequestMapping("/api/save")
-	public String save(Table obj) throws IOException{
-		repo.save(obj);		
-		return "redirect:/table/list";
-	}
-	
-	
-	 @RequestMapping("/api/delete/{id}")
-	    public String delete(@PathVariable String id) {
-	        Optional<Table> obj = repo.findById(id);
-	        repo.delete(obj.get());
-	        return "redirect:/table/list";
-	    }
-	    
-	    @RequestMapping("/api/edit/{id}")
-	    public String edit(@PathVariable String id, Model model) {
-	        model.addAttribute("obj", repo.findById(id).get());
-			model.addAttribute("waiters", staffRepo.findAllByDesignation("Waiter"));
 
-	        return "table_edit";
-	    }
-	    
-	    @RequestMapping("/api/update")
-	    public String update(Table obj) {
-		    repo.save(obj);
-	        return "redirect:/table/list";
-	    }
-	 
+    @PostMapping
+    public Table create(@RequestBody Table item) {
+        return repo.save(item);
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Table> getById(@PathVariable String id) {
+        return repo.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Table update(@PathVariable String id, @RequestBody Table updated) {
+        updated.setId(id);
+        return repo.save(updated);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        repo.deleteById(id);
+    }
 }

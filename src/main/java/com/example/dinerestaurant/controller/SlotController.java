@@ -1,58 +1,43 @@
-package com.dinein.controller;
+package com.example.dinerestaurant.controller;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.example.dinerestaurant.model.Slot;
+import com.example.dinerestaurant.repository.SlotRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.dinein.model.Slot;
-import com.dinein.repository.SlotRepository;
-
-@RequestMapping("/api/slot")
 @RestController
+@RequestMapping("/api/slots")
 public class SlotController {
 
-	@Autowired
-	SlotRepository repo;
+    @Autowired
+    private SlotRepository repo;
 
-	
-	@RequestMapping("/api/list")
-    public String home(Model model) {
-        model.addAttribute("datalist", repo.findAll());
-        return "slot";
+    @GetMapping
+    public List<Slot> getAll() {
+        return repo.findAll();
     }
-	
-	
-	@RequestMapping("/api/save")
-	public String save(Slot obj) throws IOException, ParseException{
-		
-		SimpleDateFormat sdf24 = new SimpleDateFormat("HH:mm");  
-        Date date = sdf24.parse(obj.getSlotTime());
-        
-        SimpleDateFormat sdf12 = new SimpleDateFormat("hh:mm a");  
-        obj.setSlotTime(sdf12.format(date));
-		Optional<Slot> slot = repo.findBySlotTime(obj.getSlotTime());
-		
-		if(slot.isEmpty())
-			repo.save(obj);	
-		
-		return "redirect:/slot/list";
-	}
-	
-	
-	 @RequestMapping("/api/delete/{id}")
-	    public String delete(@PathVariable String id) {
-	        Optional<Slot> obj = repo.findById(id);
-	        repo.delete(obj.get());
-	        return "redirect:/slot/list";
-	    }
-	    
-	   
+
+    @PostMapping
+    public Slot create(@RequestBody Slot item) {
+        return repo.save(item);
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Slot> getById(@PathVariable String id) {
+        return repo.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Slot update(@PathVariable String id, @RequestBody Slot updated) {
+        updated.setSlotTime(id);
+        return repo.save(updated);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        repo.deleteById(id);
+    }
 }

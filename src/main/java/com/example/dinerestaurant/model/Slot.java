@@ -1,12 +1,14 @@
-package com.dinein.model;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+package com.example.dinerestaurant.model;
+
 public class Slot {
-	String slotTime;
-	public Slot(String id, String slotTime) {
-		this.slotTime = slotTime;
-		return "Slot [id=" + id + ", slotTime=" + slotTime + "]";
-		return slotTime;
-	public void setSlotTime(String slotTime) {
-		this.slotTime = slotTime;
+    private String slotTime;
+
+    public Slot() {}
+
+    public Slot(String slotTime) {
+        this.slotTime = slotTime;
+    }
+
+    public String getSlotTime() { return slotTime; }
+    public void setSlotTime(String slotTime) { this.slotTime = slotTime; }
 }
