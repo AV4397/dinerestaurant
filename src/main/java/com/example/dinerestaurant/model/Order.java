@@ -1,43 +1,74 @@
-package com.example.dinerestaurant.model;
-
+package com.dinein.model;
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.Date;
-import java.util.List;
-
-@Document(collection = "orders")
 public class Order {
-    @Id
-    private String id;
-    private String tableId;
-    private List<OrderItem> items;
-    private String status;
-    private Date timestamp;
-
-    public static class OrderItem {
-        private String menuItemId;
-        private int quantity;
-
-        public String getMenuItemId() { return menuItemId; }
-        public void setMenuItemId(String menuItemId) { this.menuItemId = menuItemId; }
-
-        public int getQuantity() { return quantity; }
-        public void setQuantity(int quantity) { this.quantity = quantity; }
-    }
-
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-
-    public String getTableId() { return tableId; }
-    public void setTableId(String tableId) { this.tableId = tableId; }
-
-    public List<OrderItem> getItems() { return items; }
-    public void setItems(List<OrderItem> items) { this.items = items; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-
-    public Date getTimestamp() { return timestamp; }
-    public void setTimestamp(Date timestamp) { this.timestamp = timestamp; }
+	String orderId;
+	String custId;
+	String reservationId;
+	String tableNo;
+	String slotTime;
+	String orderedDate;
+	List<OrderItem> orderItems;
+	double amount;
+	String paymentmode;
+	String paymentstatus;
+	String staffId;
+	String status;
+	public Order(String id, String orderId, String custId, String reservationId, String tableNo, String slotTime,
+			String orderedDate, List<OrderItem> orderItems, double amount, String paymentmode, String paymentstatus,
+			String staffId, String status) {
+		this.orderId = orderId;
+		this.custId = custId;
+		this.reservationId = reservationId;
+		this.tableNo = tableNo;
+		this.slotTime = slotTime;
+		this.orderedDate = orderedDate;
+		this.orderItems = orderItems;
+		this.amount = amount;
+		this.paymentmode = paymentmode;
+		this.paymentstatus = paymentstatus;
+		this.staffId = staffId;
+		this.status = status;
+		return orderId;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+		return custId;
+	public void setCustId(String custId) {
+		this.custId = custId;
+		return reservationId;
+	public void setReservationId(String reservationId) {
+		this.reservationId = reservationId;
+		return tableNo;
+	public void setTableNo(String tableNo) {
+		this.tableNo = tableNo;
+		return slotTime;
+	public void setSlotTime(String slotTime) {
+		this.slotTime = slotTime;
+		return orderedDate;
+	public void setOrderedDate(String orderedDate) {
+		this.orderedDate = orderedDate;
+		return orderItems;
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
+		return amount;
+	public void setAmount(double amount) {
+		this.amount = amount;
+		return paymentmode;
+	public void setPaymentmode(String paymentmode) {
+		this.paymentmode = paymentmode;
+	public String getPaymentstatus() {
+		return paymentstatus;
+	public void setPaymentstatus(String paymentstatus) {
+		this.paymentstatus = paymentstatus;
+		return staffId;
+	public void setStaffId(String staffId) {
+		this.staffId = staffId;
+		return status;
+	public void setStatus(String status) {
+		this.status = status;
+		return "Order [id=" + id + ", orderId=" + orderId + ", custId=" + custId + ", reservationId=" + reservationId
+				+ ", tableNo=" + tableNo + ", slotTime=" + slotTime + ", orderedDate=" + orderedDate + ", orderItems="
+				+ orderItems + ", amount=" + amount + ", paymentmode=" + paymentmode + ", paymentstatus="
+				+ paymentstatus + ", staffId=" + staffId + ", status=" + status + "]";
 }

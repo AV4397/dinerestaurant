@@ -1,35 +1,45 @@
-package com.example.dinerestaurant.model;
-
+package com.dinein.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.Date;
-
-@Document(collection = "reservations")
 public class Reservation {
-    @Id
-    private String id;
-    private String customerName;
-    private String phone;
-    private String tableId;
-    private Date dateTime;
-    private String status;
-
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-
-    public String getCustomerName() { return customerName; }
-    public void setCustomerName(String customerName) { this.customerName = customerName; }
-
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
-
-    public String getTableId() { return tableId; }
-    public void setTableId(String tableId) { this.tableId = tableId; }
-
-    public Date getDateTime() { return dateTime; }
-    public void setDateTime(Date dateTime) { this.dateTime = dateTime; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+	String reservationId;
+	String customerId;
+	int tableNo;
+	String bdate;
+	String slotTime;
+	String staffId;
+	String status;
+	public Reservation(String id, String reservationId, String customerId, int tableNo, String bdate, String slotTime,
+			String staffId, String status) {
+		this.reservationId = reservationId;
+		this.customerId = customerId;
+		this.tableNo = tableNo;
+		this.bdate = bdate;
+		this.slotTime = slotTime;
+		this.staffId = staffId;
+		this.status = status;
+		return reservationId;
+	public void setReservationId(String reservationId) {
+		this.reservationId = reservationId;
+		return customerId;
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+		return tableNo;
+	public void setTableNo(int tableNo) {
+		this.tableNo = tableNo;
+		return bdate;
+	public void setBdate(String bdate) {
+		this.bdate = bdate;
+		return slotTime;
+	public void setSlotTime(String slotTime) {
+		this.slotTime = slotTime;
+		return staffId;
+	public void setStaffId(String staffId) {
+		this.staffId = staffId;
+		return status;
+	public void setStatus(String status) {
+		this.status = status;
+		return "Reservation [id=" + id + ", reservationId=" + reservationId + ", customerId=" + customerId
+				+ ", tableNo=" + tableNo + ", bdate=" + bdate + ", slotTime=" + slotTime + ", staffId=" + staffId
+				+ ", status=" + status + "]";
 }

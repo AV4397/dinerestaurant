@@ -1,25 +1,21 @@
-package com.example.dinerestaurant.model;
-
+package com.dinein.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "tables")
 public class Table {
-    @Id
-    private String id;
-    private int tableNumber;
-    private int seats;
-    private boolean isOccupied;
-
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-
-    public int getTableNumber() { return tableNumber; }
-    public void setTableNumber(int tableNumber) { this.tableNumber = tableNumber; }
-
-    public int getSeats() { return seats; }
-    public void setSeats(int seats) { this.seats = seats; }
-
-    public boolean isOccupied() { return isOccupied; }
-    public void setOccupied(boolean occupied) { isOccupied = occupied; }
+	int tableNo;
+	int capacity;
+	String waiterId;
+	public Table(String id, int tableNo, int capacity, String waiterId) {
+		this.tableNo = tableNo;
+		this.capacity = capacity;
+		this.waiterId = waiterId;
+		return tableNo;
+	public void setTableNo(int tableNo) {
+		this.tableNo = tableNo;
+		return capacity;
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+		return waiterId;
+	public void setWaiterId(String waiterId) {
+		this.waiterId = waiterId;
 }
