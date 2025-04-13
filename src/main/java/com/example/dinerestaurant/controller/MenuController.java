@@ -64,4 +64,9 @@ public class MenuController {
     public void deleteMenu(@PathVariable String id) {
         menuRepository.deleteById(id);
     }
+
+    @DeleteMapping("/admin/deleteAll")
+    public void deleteAllMenus() {
+        menuRepository.deleteAll();
+    }
 }
