@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/menus")
+@RequestMapping("/api/menu")
 public class MenuController {
 
     @Autowired
@@ -21,13 +21,13 @@ public class MenuController {
     }
 
     @PostMapping
-    public Menu create(@RequestBody Menu item) {
-        return repo.save(item);
+    public Menu create(@RequestBody Menu menu) {
+        return repo.save(menu);
     }
 
     @GetMapping("/{id}")
-    public Optional<Menu> getById(@PathVariable String id) {
-        return repo.findById(id);
+    public Menu getById(@PathVariable String id) {
+        return repo.findById(id).orElse(null);
     }
 
     @PutMapping("/{id}")
