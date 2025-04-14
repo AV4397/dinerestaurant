@@ -3,14 +3,14 @@ package com.example.dinerestaurant.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "menu")
+@Document(collection = "menu")  // Tells Spring Data that this is stored in the "menu" collection
 public class Menu {
 
     @Id
-    private String id;          // Primary key in MongoDB
+    private String id;          // Primary key (_id) for MongoDB
 
-    private String menuId;      // Extra field if you want a special code like "MENU001"
-    private String catId;       // Extra field if you want a category code like "CAT01"
+    private String menuId;      // Extra code if you want "MENU001" etc.
+    private String catId;       // Extra code for categories if needed
     private String name;
     private String category;
     private double price;
@@ -34,12 +34,11 @@ public class Menu {
         this.imgUrl = imgUrl;
     }
 
-    // --- Getters and Setters ---
+    // --- Getters & Setters ---
 
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
@@ -47,7 +46,6 @@ public class Menu {
     public String getMenuId() {
         return menuId;
     }
-
     public void setMenuId(String menuId) {
         this.menuId = menuId;
     }
@@ -55,7 +53,6 @@ public class Menu {
     public String getCatId() {
         return catId;
     }
-
     public void setCatId(String catId) {
         this.catId = catId;
     }
@@ -63,7 +60,6 @@ public class Menu {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -71,7 +67,6 @@ public class Menu {
     public String getCategory() {
         return category;
     }
-
     public void setCategory(String category) {
         this.category = category;
     }
@@ -79,7 +74,6 @@ public class Menu {
     public double getPrice() {
         return price;
     }
-
     public void setPrice(double price) {
         this.price = price;
     }
@@ -87,7 +81,6 @@ public class Menu {
     public boolean isAvailability() {
         return availability;
     }
-
     public void setAvailability(boolean availability) {
         this.availability = availability;
     }
@@ -95,7 +88,6 @@ public class Menu {
     public String getRecipe() {
         return recipe;
     }
-
     public void setRecipe(String recipe) {
         this.recipe = recipe;
     }
@@ -103,7 +95,6 @@ public class Menu {
     public String getImgUrl() {
         return imgUrl;
     }
-
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }

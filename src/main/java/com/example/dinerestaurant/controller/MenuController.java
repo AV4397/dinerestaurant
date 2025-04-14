@@ -30,32 +30,35 @@ public class MenuController {
     // 3) CREATE
     @PostMapping
     public Menu createMenu(@RequestBody Menu newMenu) {
-        // newMenu.setId(null); // uncomment if you want to ensure Mongo auto-generates the _id
+        // newMenu.setId(null); // optionally clear the ID so Mongo generates a new _id
         return menuRepository.save(newMenu);
     }
 
-    // 4) UPDATE (does not overwrite 'id')
+    // 4) UPDATE (never overwrite 'id')
     @PutMapping("/{id}")
     public Menu updateMenu(@PathVariable String id, @RequestBody Menu updated) {
+
         Optional<Menu> existingOpt = menuRepository.findById(id);
         if (existingOpt.isEmpty()) {
-            return null;  // or throw an exception / return 404
+            return null;  // or throw an exception or return a 404
         }
 
         Menu existing = existingOpt.get();
-        // Only update fields that are not null (or however you want to handle partial updates)
-        if (updated.getMenuId() != null)    existing.setMenuId(updated.getMenuId());
-        if (updated.getCatId()  != null)    existing.setCatId(updated.getCatId());
-        if (updated.getName()   != null)    existing.setName(updated.getName());
-        if (updated.getCategory() != null)  existing.setCategory(updated.getCategory());
-        if (updated.getRecipe() != null)    existing.setRecipe(updated.getRecipe());
-        if (updated.getImgUrl() != null)    existing.setImgUrl(updated.getImgUrl());
+        // We'll do full updates for each field, except we do NOT overwrite existing.setId(...)
 
-        // For numeric/boolean fields, decide how you want partial updates:
-        existing.setPrice(updated.getPrice());  // always update price
-        existing.setAvailability(updated.isAvailability()); // always update availability
+        // Copy strings only if non-null to allow partial updates
+        if (updated.getMenuId()  != null) existing.setMenuId(updated.getMenuId());
+        if (updated.getCatId()   != null) existing.setCatId(updated.getCatId());
+        if (updated.getName()    != null) existing.setName(updated.getName());
+        if (updated.getCategory()!= null) existing.setCategory(updated.getCategory());
+        if (updated.getRecipe()  != null) existing.setRecipe(updated.getRecipe());
+        if (updated.getImgUrl()  != null) existing.setImgUrl(updated.getImgUrl());
 
-        // DO NOT DO: existing.setId(updated.getId()); // never overwrite the primary _id
+        // For numeric/boolean fields, decide partial vs full updates
+        // If you always want to overwrite them, do:
+        existing.setPrice(updated.getPrice());
+        existing.setAvailability(updated.isAvailability());
+
         return menuRepository.save(existing);
     }
 
@@ -63,10 +66,5 @@ public class MenuController {
     @DeleteMapping("/{id}")
     public void deleteMenu(@PathVariable String id) {
         menuRepository.deleteById(id);
-    }
-
-    @DeleteMapping("/admin/deleteAll")
-    public void deleteAllMenus() {
-        menuRepository.deleteAll();
     }
 }
