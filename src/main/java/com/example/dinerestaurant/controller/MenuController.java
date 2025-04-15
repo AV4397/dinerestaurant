@@ -35,7 +35,7 @@ public class MenuController {
     }
 
     // ✅ Standard JSON-based POST
-    @PostMapping
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Menu createMenu(@RequestBody Menu menu) {
         return menuRepository.save(menu);
     }
